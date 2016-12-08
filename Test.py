@@ -1,6 +1,6 @@
 import webbrowser
 import urllib.request
-
+import
 
 log = open('testfile.html', 'w')
 
