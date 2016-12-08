@@ -30,3 +30,4 @@ for link in soup.find_all('a', attr):
 # Save (commit) the changes
 conn.commit()
 conn.close()
+#http://stackoverflow.com/questions/7640061/trying-to-check-if-value-already-in-mysql-db
