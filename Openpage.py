@@ -17,13 +17,24 @@ status, response = http.request('https://www.olx.ro/hobby-sport-turism/biciclete
 soup = BeautifulSoup(response, 'html.parser')
 soup.prettify()
 attr = {'class': ['marginright5']}
-# Create table
-# do.execute('''CREATE TABLE Page
-#               (date text, Html text)''')
+#Create table
+#do.execute('''CREATE TABLE Page
+#               (date1 text, Html1 text, date2 text, Html2 text)''')
 for link in soup.find_all('a', attr):
     bike = link.get('href').replace(';promoted', '')
     # Insert a row of data
-    do.execute("INSERT INTO Page VALUES ('%s','%s')" % (time, bike))
+    do.execute("INSERT INTO Page (date1, Html1) VALUES ('%s','%s')" % (time, bike))
+
+tabel1 = str(do.execute("SELECT date1 FROM Page LIMIT 1").fetchall())
+tabel1 = tabel1.replace('[(\'', '').replace('\',)]', '')
+
+print(tabel1 + time)
+
+if tabel1 >= time:
+    for link in soup.find_all('a', attr):
+        bike = link.get('href').replace(';promoted', '')
+        # Insert a row of data
+        do.execute("UPDATE Page SET  date2=date2 WHERE 1")
 
 
 
