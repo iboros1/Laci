@@ -24,15 +24,20 @@ for page_nr in range(page_nr):
     soup.prettify()
     attr = {'class': ['marginright5']}
 
-
     for link in soup.find_all('a', attr):
         bike = link.get('href')
-        html_link, sep, id_promoted = bike.partition('#')  # .replace(';promoted', '')
+        html_link, sep, id_promoted = bike.partition('#')
+        html_result = str('From Page' + str(page_nr) + '<a href=' + html_link + '>' + html_link + '</a><br>')
+        write_to_db = ("INSERT INTO Page (date, Html) VALUES ('%s','%s')" % (time, html_link))
 
         # Insert a row of data
-        try: do.execute("INSERT INTO Page (date, Html) VALUES ('%s','%s')" % (time, html_link)), results.write('\n' + page_nr + html_link )
+        try:
+            do.execute(write_to_db)
+            results.write(html_result)
+            print(html_result)
+
         except:
-            print(str(page_nr) + str(html_link) + '\n')
+            print(str(page_nr) + "-Page: "+ str(html_link) + '\n')
 
 
 

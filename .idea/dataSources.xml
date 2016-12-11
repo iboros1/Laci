@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Sqlite (Xerial) - olx.db" uuid="48f7f212-6b02-4e22-b461-53e782f1cf6f">
+    <data-source source="LOCAL" name="Sqlite (Xerial) - olx.db [2]" uuid="34997dd5-7529-43c8-a24c-7054872518ca">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/olx.db</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="Sqlite (Xerial) - olx.db [2]" uuid="34997dd5-7529-43c8-a24c-7054872518ca">
+    <data-source source="LOCAL" name="Sqlite (Xerial) - olx.db [3]" uuid="bd673718-a0e3-4927-8ea6-05e730bc4f37">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
