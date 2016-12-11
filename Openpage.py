@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import httplib2
 from bs4 import BeautifulSoup
 import sqlite3
@@ -28,7 +30,7 @@ for page_nr in range(page_nr):
         html_link, sep, id_promoted = bike.partition('#')  # .replace(';promoted', '')
 
         # Insert a row of data
-        try: do.execute("INSERT INTO Page (date, Html) VALUES ('%s','%s')" % (time, html_link)), results.write('\n' + html_link)
+        try: do.execute("INSERT INTO Page (date, Html) VALUES ('%s','%s')" % (time, html_link)), results.write('\n' + page_nr + html_link )
         except:
             print(str(page_nr) + str(html_link) + '\n')
 
