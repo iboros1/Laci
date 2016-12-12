@@ -46,4 +46,3 @@ for page_nr in range(page_nr):
 results.close()
 conn.close()
 
-    #http://stackoverflow.com/questions/7640061/trying-to-check-if-value-already-in-mysql-db
