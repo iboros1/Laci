@@ -13,12 +13,11 @@ def page_run(page_nr, time=time):
     time = time.strftime("%Y-%m-%d")
     # time = "2016-12-18"
     t_date = datetime.datetime.now() - datetime.timedelta(days=Days)
-    t_date = str('%s-%02d-%02d' % (t_date.year, t_date.month, t_date.day))
+    t_date = '%s-%02d-%02d' % (t_date.year, t_date.month, t_date.day)
     conn = sqlite3.connect('olx.db')
     do = conn.cursor()
     http = httplib2.Http()
     results = (open('results.html', 'a'))
-    # do.execute('''CREATE TABLE Page (AddDate date , Html text unique)''')
     for page_nr in range(page_nr):
         status, response = http.request(page_to_open + '&page=' + str(page_nr))
         soup = BeautifulSoup(response, 'html.parser')
