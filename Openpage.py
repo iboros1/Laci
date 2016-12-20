@@ -49,7 +49,7 @@ def page_run(page_nr, time=time):
             except:
                 print(str(page_nr) + "-Page: " + str(html_link) + '\n')
 
-            do.execute("DELETE FROM Page WHERE AddDate >= '%s' " % t_date)
+            #do.execute("DELETE FROM Page WHERE AddDate >= '%s' " % t_date)
 
         # Save (commit) the changes
         conn.commit()
