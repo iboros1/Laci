@@ -4,7 +4,7 @@ import httplib2
 from bs4 import BeautifulSoup
 import sqlite3
 import datetime
-from Config import page_nr, page_to_open, Days
+from Config import PAGES_TO_OPEN, PAGE_TO_OPEN, DELETE_IF_OLDER_THEN
 import time
 
 
@@ -12,14 +12,14 @@ def page_run(page_nr, time=time):
     ## dd/mm/yyyy format
     time = time.strftime("%Y-%m-%d")
     # time = "2016-12-18"
-    t_date = datetime.datetime.now() - datetime.timedelta(days=Days)
+    t_date = datetime.datetime.now() - datetime.timedelta(days=DELETE_IF_OLDER_THEN)
     t_date = '%s-%02d-%02d' % (t_date.year, t_date.month, t_date.day)
-    conn = sqlite3.connect('olx.db')
+    conn = sqlite3.connect('olx2.db')
     do = conn.cursor()
     http = httplib2.Http()
     results = (open('results.html', 'a'))
     for page_nr in range(page_nr):
-        status, response = http.request(page_to_open + '&page=' + str(page_nr))
+        status, response = http.request(PAGE_TO_OPEN + '&page=' + str(page_nr))
         soup = BeautifulSoup(response, 'html.parser')
         soup.prettify()
         attr = {'class': ['marginright5']}
@@ -59,4 +59,4 @@ def page_run(page_nr, time=time):
 
 
 if __name__ == "__main__":
-    page_run(page_nr)
+    page_run(PAGES_TO_OPEN)

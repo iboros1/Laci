@@ -1,22 +1,90 @@
 #!/usr/bin/python
 
 from urllib.request import urlopen
-from Config import page_to_open, page_nr
+from Config import PAGE_TO_OPEN, PAGES_TO_OPEN, SEARCH_FOR_CLASS_ID
+import httplib2
+from bs4 import BeautifulSoup
+import sqlite3
+import time
 
-page_nr = page_nr
+http = httplib2.Http()
 
 
-def open_page(http):
-    http = urlopen(page_to_open)
+def unused_open_page():
+    http = urlopen(PAGE_TO_OPEN)
     olx = http.geturl()
-    print(http)
-    return http, olx
+    # print(olx)
+    return olx
 
-http = open_page(http)
 
-def brows_pages(http, page_nr):
-    for page_nr in range(page_nr):
-        status, response = http.request(page_to_open + '&page=' + str(page_nr))
-        print(response)
+def get_web_bike_list(beautiful_page_result):
+    web_list = []
+    db_add_date = time.strftime("%Y-%m-%d")
+    for bike_list in beautiful_page_result:
+        bike_url = bike_list.get('href')
+        bike_url, diez, unused_id = bike_url.partition('#')
+        title = bike_list.find_all('strong')
+        temp_bike_list = [db_add_date, bike_url, title]
+        web_list.append(temp_bike_list)
 
-brows_pages(http, page_nr)
+        print(web_list)
+
+
+def brows_pages():
+    for page in range(PAGES_TO_OPEN):
+        status, response = http.request(PAGE_TO_OPEN + '&page=' + str(page))
+        soup = BeautifulSoup(response, 'html.parser')
+        soup.prettify()
+        attr = {'class': [SEARCH_FOR_CLASS_ID]}
+        beautiful_page_result = soup.find_all('a', attr)
+        get_web_bike_list(beautiful_page_result)
+        print("a")
+
+brows_pages()
+
+
+def get_db_bike_list():
+    connect_to_db = sqlite3.connect('olx.db')
+    db_cusor = connect_to_db.cursor()
+    db_cusor.execute('SELECT HtmlBike FROM Page')
+    db_list = db_cusor.fetchall()
+    connect_to_db.close()
+    return db_list
+
+
+def compare_web_and_db(web_list, db_list):
+  # web_list= get_web_bike_list()
+    # filter_web_list = [x[1] for x in web_list]
+    # for item in filter_web_list:
+    #     if item not in db_list:
+    pass
+
+
+
+def add_new_bike_to_db():
+    pass
+
+
+def work_in_db():
+    db_add_date = time.strftime("%Y-%m-%d")
+    connect_to_db = sqlite3.connect('olx.db')
+    db_cusor = connect_to_db.cursor()
+    db_cusor.execute('SELECT HtmlBike FROM Page')
+    db_bike_html = db_cusor.fetchall()
+    bike_list = [x[0] for x in db_bike_html]
+
+    if bike_list not in bike_list:
+        write_to_db(db_cusor)
+    else:
+        print("a")
+
+    connect_to_db.commit()
+    connect_to_db.close()
+
+
+def write_to_db(db_cursor):
+    db_add_date = time.strftime("%Y-%m-%d")
+#    db_cursor.execute(
+#        "INSERT INTO Page (DateAdded, HtmlBike, AdName) VALUES ('%s','%s', '%s')" % (db_add_date, bike_url, title))
+
+#work_in_db()

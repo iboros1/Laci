@@ -1,6 +1,8 @@
 
-page_to_open = "https://www.olx.ro/hobby-sport-turism/biciclete-fitness/biciclete/?search[order]=created_at%3Ades"
+PAGE_TO_OPEN = "https://www.olx.ro/hobby-sport-turism/biciclete-fitness/biciclete/?search[order]=created_at%3Ades"
 
-page_nr = 2
+SEARCH_FOR_CLASS_ID = "marginright5"
 
-Days = 1
+PAGES_TO_OPEN = 5
+
+DELETE_IF_OLDER_THEN = 1
