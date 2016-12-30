@@ -8,6 +8,8 @@ import sqlite3
 import time
 
 http = httplib2.Http()
+web_list = []
+db_list = []
 
 
 def unused_open_page():
@@ -18,7 +20,7 @@ def unused_open_page():
 
 
 def get_web_bike_list(beautiful_page_result):
-    web_list = []
+
     db_add_date = time.strftime("%Y-%m-%d")
     for bike_list in beautiful_page_result:
         bike_url = bike_list.get('href')
@@ -26,8 +28,7 @@ def get_web_bike_list(beautiful_page_result):
         title = bike_list.find_all('strong')
         temp_bike_list = [db_add_date, bike_url, title]
         web_list.append(temp_bike_list)
-
-        print(web_list)
+        return web_list
 
 
 def brows_pages():
@@ -38,9 +39,6 @@ def brows_pages():
         attr = {'class': [SEARCH_FOR_CLASS_ID]}
         beautiful_page_result = soup.find_all('a', attr)
         get_web_bike_list(beautiful_page_result)
-        print("a")
-
-brows_pages()
 
 
 def get_db_bike_list():
@@ -52,13 +50,14 @@ def get_db_bike_list():
     return db_list
 
 
-def compare_web_and_db(web_list, db_list):
-  # web_list= get_web_bike_list()
-    # filter_web_list = [x[1] for x in web_list]
-    # for item in filter_web_list:
-    #     if item not in db_list:
-    pass
+def compare_web_and_db():
+    get_db_bike_list()
+    filter_web_list = [x[1] for x in web_list]
+    for item in filter_web_list:
+        if item not in db_list:
+            print(item)
 
+compare_web_and_db()
 
 
 def add_new_bike_to_db():
@@ -81,7 +80,7 @@ def work_in_db():
     connect_to_db.commit()
     connect_to_db.close()
 
-
+work_in_db()
 def write_to_db(db_cursor):
     db_add_date = time.strftime("%Y-%m-%d")
 #    db_cursor.execute(
