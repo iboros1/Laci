@@ -4,7 +4,7 @@ import httplib2
 from bs4 import BeautifulSoup
 import sqlite3
 import datetime
-from Config import PAGES_TO_OPEN, PAGE_TO_OPEN, DELETE_IF_OLDER_THEN
+from Config import NR_OF_PAGES_TO_OPEN, PAGE_TO_OPEN, DELETE_IF_OLDER_THEN
 import time
 
 
@@ -59,4 +59,4 @@ def page_run(page_nr, time=time):
 
 
 if __name__ == "__main__":
-    page_run(PAGES_TO_OPEN)
+    page_run(NR_OF_PAGES_TO_OPEN)

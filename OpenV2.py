@@ -1,14 +1,15 @@
 #!/usr/bin/python
 
 from urllib.request import urlopen
-from Config import PAGE_TO_OPEN, PAGES_TO_OPEN, SEARCH_FOR_CLASS_ID
+from Config import PAGE_TO_OPEN, NR_OF_PAGES_TO_OPEN, SEARCH_FOR_CLASS_ID
 import httplib2
 from bs4 import BeautifulSoup
 import sqlite3
 import time
 
+
 http = httplib2.Http()
-web_list = []
+
 db_list = []
 
 
@@ -20,7 +21,7 @@ def unused_open_page():
 
 
 def get_web_bike_list(beautiful_page_result):
-
+    web_list = []
     db_add_date = time.strftime("%Y-%m-%d")
     for bike_list in beautiful_page_result:
         bike_url = bike_list.get('href')
@@ -28,17 +29,18 @@ def get_web_bike_list(beautiful_page_result):
         title = bike_list.find_all('strong')
         temp_bike_list = [db_add_date, bike_url, title]
         web_list.append(temp_bike_list)
-        return web_list
+    return web_list
 
 
 def brows_pages():
-    for page in range(PAGES_TO_OPEN):
+    for page in range(NR_OF_PAGES_TO_OPEN):
         status, response = http.request(PAGE_TO_OPEN + '&page=' + str(page))
         soup = BeautifulSoup(response, 'html.parser')
         soup.prettify()
         attr = {'class': [SEARCH_FOR_CLASS_ID]}
         beautiful_page_result = soup.find_all('a', attr)
         get_web_bike_list(beautiful_page_result)
+
 
 
 def get_db_bike_list():
@@ -51,17 +53,22 @@ def get_db_bike_list():
 
 
 def compare_web_and_db():
-    get_db_bike_list()
     filter_web_list = [x[1] for x in web_list]
     for item in filter_web_list:
-        if item not in db_list:
+        if item  in db_list:
             print(item)
+
 
 compare_web_and_db()
 
-
 def add_new_bike_to_db():
     pass
+
+
+def write_to_db(db_cursor):
+    db_add_date = time.strftime("%Y-%m-%d")
+#    db_cursor.execute(
+#        "INSERT INTO Page (DateAdded, HtmlBike, AdName) VALUES ('%s','%s', '%s')" % (db_add_date, bike_url, title))
 
 
 def work_in_db():
@@ -81,9 +88,6 @@ def work_in_db():
     connect_to_db.close()
 
 work_in_db()
-def write_to_db(db_cursor):
-    db_add_date = time.strftime("%Y-%m-%d")
-#    db_cursor.execute(
-#        "INSERT INTO Page (DateAdded, HtmlBike, AdName) VALUES ('%s','%s', '%s')" % (db_add_date, bike_url, title))
 
-#work_in_db()
+
+
