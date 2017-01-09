@@ -1,3 +1,5 @@
+#!/usr/bin/python3.5
+
 from urllib.request import urlopen
 from Config import PAGE_TO_OPEN, NR_OF_PAGES_TO_OPEN, SEARCH_FOR_CLASS_ID, DB
 import httplib2
@@ -9,9 +11,6 @@ import urllib3
 ### ALL WARNINGS ARE DISABLED
 urllib3.disable_warnings()
 
-
-
-NR_OF_PAGES_TO_OPEN = NR_OF_PAGES_TO_OPEN
 http = httplib2.Http()
 
 
@@ -21,28 +20,36 @@ def get_db_bike_list():
     db_cusor.execute('SELECT HtmlBike FROM Page')
     db_list = db_cusor.fetchall()
     connect_to_db.close()
-    return db_list
-
-db_list = get_db_bike_list()
+    return [x[0] for x in db_list]
 
 
-def brows_pages():
+def brows_pages(page):
     http = urllib3.PoolManager()
     response = http.request('GET', PAGE_TO_OPEN + '&page=' + str(page))
-    return response
-
-
-
-for page in range(NR_OF_PAGES_TO_OPEN):
-    page = page
-    brows_pages()
-
-response = brows_pages()
-
-
-def beautify():
-    soup = BeautifulSoup(response, 'html.parser')
+    soup = BeautifulSoup(response.data, 'html.parser')
     soup.prettify()
     attr = {'class': [SEARCH_FOR_CLASS_ID]}
     beautiful_page_result = soup.find_all('a', attr)
+    return beautiful_page_result
 
+
+def compare_lists(db_bike_list, web_bike_list):
+
+    for bike in web_bike_list:
+        if bike in db_bike_list:
+            pass
+        else:
+            pass
+
+
+def get_all_lists():
+    db_bike_list = get_db_bike_list()
+    for page in range(NR_OF_PAGES_TO_OPEN):
+        web_bike_list = brows_pages(page)
+        compare_lists(db_bike_list, web_bike_list)
+
+
+
+
+if __name__ == "__main__":
+    get_all_lists()
