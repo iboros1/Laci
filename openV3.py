@@ -26,14 +26,17 @@ def get_db_bike_list():
 
 def brows_pages(page):
     http = urllib3.PoolManager()
-    response = http.request('GET', PAGE_TO_OPEN + '&page=' + str(page))
+    response = http.request('GET', PAGE_TO_OPEN + '&page=' + str(page + 1))
     soup = BeautifulSoup(response.data, 'html.parser')
     soup.prettify()
     attr = {'class': [SEARCH_FOR_CLASS_ID]}
-    beautiful_page_result = soup.find_all('a', attr)
-    bike_url, diez, unused_id = beautiful_page_result.partition('#')
-    title = beautiful_page_result.find_all('strong')
-    return beautiful_page_result, bike_url, title
+    web_bike_list = []
+    for beautiful_page_result in  soup.find_all('a', attr):
+        dirty_bike_link = beautiful_page_result.get('href')
+        bike_url, diez, unused_id = dirty_bike_link.partition('#')
+        title = beautiful_page_result.find_all('strong')
+        web_bike_list.extend((bike_url, title))
+    return beautiful_page_result,web_bike_list
 
 
 def wdite_to_db(get_db_bike_list,brows_pages):
@@ -45,7 +48,7 @@ def wdite_to_db(get_db_bike_list,brows_pages):
 def compare_lists(db_bike_list, web_bike_list):
 
     for bike in web_bike_list:
-        if bike in db_bike_list:
+        if bike in db_bike_list[0]:
             wdite_to_db()
         else:
             pass

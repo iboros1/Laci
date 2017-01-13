@@ -67,8 +67,8 @@ def add_new_bike_to_db():
 
 def write_to_db(db_cursor):
     db_add_date = time.strftime("%Y-%m-%d")
-#    db_cursor.execute(
-#        "INSERT INTO Page (DateAdded, HtmlBike, AdName) VALUES ('%s','%s', '%s')" % (db_add_date, bike_url, title))
+    db_cursor.execute(
+       "INSERT INTO Page (DateAdded, HtmlBike, AdName) VALUES ('%s','%s', '%s')" % (db_add_date, bike_url, title))
 
 
 def work_in_db():
