@@ -21,7 +21,7 @@ def get_db_bike_list():
     db_cusor.execute('SELECT HtmlBike FROM Page')
     db_list = db_cusor.fetchall()
     connect_to_db.close()
-    return [x[0] for x in db_list], db_cusor
+    return [x[0] for x in db_list]
 
 
 def brows_pages(page):
@@ -36,20 +36,20 @@ def brows_pages(page):
         bike_url, diez, unused_id = dirty_bike_link.partition('#')
         title = beautiful_page_result.find_all('strong')
         web_bike_list.extend((bike_url, title))
-    return beautiful_page_result,web_bike_list
+    return web_bike_list
 
 
-def wdite_to_db(get_db_bike_list,brows_pages):
+def write_to_db(get_db_bike_list,brows_pages):
     db_add_date = strftime("%Y-%m-%d")
     get_db_bike_list.db_cursor.execute(
        "INSERT INTO Page (DateAdded, HtmlBike, AdName) VALUES ('%s','%s', '%s')" % (db_add_date, brows_pages.bike_url, brows_pages.title))
 
 
 def compare_lists(db_bike_list, web_bike_list):
-
+    unique_bike_list = []
     for bike in web_bike_list:
-        if bike in db_bike_list[0]:
-            wdite_to_db()
+        if bike not in db_bike_list:
+         unique_bike_list.append(bike)
         else:
             pass
 
