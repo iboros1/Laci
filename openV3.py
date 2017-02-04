@@ -41,11 +41,11 @@ def browse_pages(page):
 
 
 def write_to_db(get_db_bike_list,brows_pages):
-        if 'olx' in beautiful_page_result.attrs['href']:
-            bike_url, diez, unused_id = dirty_bike_link.partition('#')
-            title = beautiful_page_result.find_all('strong')
+        if 'olx' in web_bike_list.attrs['href']:
+            bike_url, diez, unused_id = web_bike_list.partition('#')
+            title = web_bike_list.find_all('strong')
             web_bike_list.append((bike_url, title))
-    return beautiful_page_result,web_bike_list
+        return web_bike_list
 
 
 def write_to_db(get_db_bike_list,web_bike_list):
