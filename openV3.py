@@ -1,8 +1,6 @@
 #!/usr/bin/python3.5
 
-from urllib.request import urlopen
 from Config import PAGE_TO_OPEN, NR_OF_PAGES_TO_OPEN, SEARCH_FOR_CLASS_ID, DB, DELETE_IF_OLDER_THEN
-import httplib2
 from bs4 import BeautifulSoup
 import sqlite3
 import urllib3
@@ -77,7 +75,6 @@ def write_to_db(compare_lists):
 def create_html(db_add_date, single_html, single_title):
     doc = (open('results.html', 'a'))
     html_result = str(db_add_date + '<a href=' + single_html + '>' + single_title + '</a><br>' +  "\n")
-#    doc_cont = doc.read()
     doc.write(html_result)
     doc.close()
 
