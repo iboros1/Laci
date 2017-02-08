@@ -1,5 +1,5 @@
 import datetime
-from Config import DELETE_IF_OLDER_THEN
+from config import DELETE_IF_OLDER_THEN
 from time import strftime
 
 
