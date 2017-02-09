@@ -18,7 +18,7 @@ def date_list():
 
 
 def clear_html():
-    list_ok = []
+    list = []
     keep_dates = date_list()
     doc = (open('results.html', "r+"))
     read = doc.readlines()
@@ -26,8 +26,8 @@ def clear_html():
     for line in read:
         for date in keep_dates:
             date = str(date)
-            if date in line and "uplicate" not in line:
-                list_ok.append(line)
+        if date in line and "uplicate" not in line:
+            list.append(line)
     doc.close()
 
     doc = (open('results.html', 'w'))
@@ -36,3 +36,6 @@ def clear_html():
     doc.close()
 
 clear_html()
+
+
+
