@@ -1,9 +1,19 @@
-<table>
-{% for item in items %}
-    <tr>
-        <td>{{DateAdded}}</td>
-        <td>{{HtmlBike}}</td>
-        <td>{{AdName}}</td>
-    </tr>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Olx Bikes</title>
+</head>
+<body>
+    <div>
+        Your Bikes from the selected date {{user_date}}!
+    </div>
+{% for bikes in Bikes %}
+
+    <strong>Date:</strong> {{ bikes.Date }}
+    <strong>Title:</strong>  <a href="{{ bikes.Html }}"> {{ bikes.Title }}</a>
+</br>
 {% endfor %}
-</table>
+</body>
+</html>
+
+
