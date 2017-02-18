@@ -5,21 +5,37 @@
     <title>Date</title>
 </head>
 <body>
+<div>
+    Enter your dates!
+</div>
+</br>
+<form method="post">
     <div>
-        Enter your dates!
+        Dates:
+        <input type="text" name="date"/>
+        Ex:2017-01-25
     </div>
-    </br>
-    <form method="post">
-        <div>
-            Dates:
-            <input type="text" name="date" />
-            Ex:2017-01-25
-        </div>
 
-        <div>
-            <button type="submit">Send date</button>
-        </div>
-    </form>
+    <div>
+        <button type="submit">Send date</button>
+
+
+        <button onclick="goBack()">Go Back</button>
+
+    </div>
+</form>
+</br>
+        <form action="/reload">
+            <input type="submit" value="Refresh DB"/>
+        </form>
+
+
+<script>
+function goBack() {
+    window.history.back();
+}
+
+</script>
 
 </body>
 </html>

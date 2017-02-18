@@ -2,7 +2,7 @@ import sqlite3
 from config import DB, DELETE_IF_OLDER_THEN
 import os.path
 from flask import Flask, render_template, request
-
+from open_page import write_to_db, compare_lists, get_db_bike_list, get_web_bikes
 
 import datetime
 from time import strftime
@@ -47,18 +47,18 @@ wsgi_app = app.wsgi_app
 #     return render_template('results.html', items=db_cursor.fetchall())
 
 
-def date_list():
-    keep_dates = []
-    t_date = datetime.datetime.now() - datetime.timedelta(days=DELETE_IF_OLDER_THEN)
-    date1 = '%s-%02d-%02d' % (t_date.year, t_date.month, t_date.day)
-    date2 = strftime("%Y-%m-%d")
-    start = datetime.datetime.strptime(date1, '%Y-%m-%d')
-    end = datetime.datetime.strptime(date2, '%Y-%m-%d')
-    step = datetime.timedelta(days=1)
-    while start <= end:
-        keep_dates.append(start.date())
-        start += step
-    return keep_dates
+# def date_list():
+#     keep_dates = []
+#     t_date = datetime.datetime.now() - datetime.timedelta(days=DELETE_IF_OLDER_THEN)
+#     date1 = '%s-%02d-%02d' % (t_date.year, t_date.month, t_date.day)
+#     date2 = strftime("%Y-%m-%d")
+#     start = datetime.datetime.strptime(date1, '%Y-%m-%d')
+#     end = datetime.datetime.strptime(date2, '%Y-%m-%d')
+#     step = datetime.timedelta(days=1)
+#     while start <= end:
+#         keep_dates.append(start.date())
+#         start += step
+#     return keep_dates
 
 
 @app.route('/')
@@ -99,5 +99,15 @@ def form():
         return render_template('results.html', Bikes=select_list, user_date=user_date)
 
 
+@app.route('/reload', methods=['GET', 'POST'])
+def reload():
+    # os.chdir("..")
+
+    db_bike_list = get_db_bike_list()
+    web_bike_list = get_web_bikes()
+    write_to_db(compare_lists(db_bike_list, web_bike_list))
+    return render_template('Success.html')
+
+
 if __name__ == "__main__":
-    form()
+    reload()

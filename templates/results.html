@@ -7,6 +7,9 @@
     <div>
         Your Bikes from the selected date {{user_date}}!
     </div>
+    <form action="/olx">
+    <input type="submit" value="go to Date page" />
+</form>
 {% for bikes in Bikes %}
 
     <strong>Date:</strong> {{ bikes.Date }}
