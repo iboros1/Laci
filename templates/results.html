@@ -10,7 +10,7 @@
     <form action="/olx">
     <input type="submit" value="go to Date page" />
 </form>
-{% for bikes in Bikes %}
+{% for bikes in Bikes |sort(attribute='Date', reverse = True)%}
 
     <strong>Date:</strong> {{ bikes.Date }}
     <strong>Title:</strong>  <a href="{{ bikes.Html }}"> {{ bikes.Title }}</a>
