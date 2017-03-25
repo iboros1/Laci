@@ -64,7 +64,7 @@ wsgi_app = app.wsgi_app
 @app.route('/')
 def bikes():
     # remove "#" When debugging
-    # os.chdir("..")
+    #os.chdir("..")
     connect_to_db = sqlite3.connect(DB)
     db_cursor = connect_to_db.cursor()
     db_cursor = db_cursor.execute('SELECT * from Page')
@@ -79,12 +79,15 @@ def bikes():
 @app.route('/olx', methods=['GET', 'POST'])
 def form():
     # remove "#" When debugging
-    # user_date = '2017-02-05'
-    # os.chdir("..")
+    #user_date = '2017-02-05'
+    #os.chdir("..")
+
     if request.method == 'GET':
         return render_template('date.html')
     elif request.method == 'POST':
         user_date = request.form.get('date')
+        user_text = request.form.get('stext')
+        user_text1 = request.form.get('s1text')
         select_list = []
         connect_to_db = sqlite3.connect(DB)
         db_cursor = connect_to_db.cursor()
@@ -95,13 +98,19 @@ def form():
         for select in bikes_dict:
             if select['Date'] == user_date:
                 select_list.append(select)
+            # if user_text in select['Title'] or user_text1 in select['Title']:
+            #     select_list.append(select)
+            if user_text in select['Title'] and user_text1 in select['Title']:
+                select_list.append(select)
         connect_to_db.close()
-        return render_template('results.html', Bikes=select_list, user_date=user_date)
+        return render_template('results.html', Bikes=select_list, user_date=user_date, user_text=user_text, user_text1=user_text1)
+
+
 
 
 @app.route('/reload', methods=['GET', 'POST'])
 def reload():
-    # os.chdir("..")
+    #os.chdir("..")
 
     db_bike_list = get_db_bike_list()
     web_bike_list = get_web_bikes()
@@ -110,4 +119,4 @@ def reload():
 
 
 if __name__ == "__main__":
-    reload()
+    bikes()
