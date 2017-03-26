@@ -107,7 +107,6 @@ def form():
 
 
 
-
 @app.route('/reload', methods=['GET', 'POST'])
 def reload():
     #os.chdir("..")
